@@ -1,23 +1,18 @@
 package main.handlers;
 
-import main.commands.*;
+import main.commands.general.About;
+import main.commands.general.Help;
+import main.commands.moderation.Ban;
+import main.commands.moderation.Kick;
+import main.commands.moderation.Warn;
 import main.init.InitData;
 import main.init.Launcher;
-import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class CommandHandler {
-	
-	/**
-	 * The types of command types there are
-	 * 
-	 */
-	public static final String[] cmdTypes = {
-			"General", "Moderation", "Misc", "Bot Owner"
-	};
 	
 	/**Searches for commands
 	 * 
@@ -27,39 +22,83 @@ public class CommandHandler {
 	 */
 	public static boolean[] useCommand(String search, Event event) {
 		
-		User usr = ((MessageReceivedEvent) event).getMember().getUser();
-		TextChannel chn = ((MessageReceivedEvent) event).getTextChannel();
-		boolean priv = (chn.getType() == ChannelType.PRIVATE);
+		//Use these?
+		//User usr = ((MessageReceivedEvent) event).getMember().getUser();
+	    //TextChannel chn = ((MessageReceivedEvent) event).getTextChannel();
+		//boolean priv = (chn.getType() == ChannelType.PRIVATE);
+
+		Object result = getCommand(true, search, event);
+		
+		if(result instanceof boolean[]) {
+			return (boolean[]) result;
+		} else {
+			return new boolean[] {false, false};
+		}
+		
+	}
+	
+	public static Object getCommand(boolean use, String search, Event evt) {
 		
 		boolean[] returnThis = new boolean[2];
-
+		
 		switch(search.toLowerCase()) {
 		
 		//General
 		case "help":
-			returnThis[0] = true;
-			returnThis[1] = new Help().action(chn, ((MessageReceivedEvent) event).getMessage().getContentDisplay(), null);
-			return returnThis;
+			if(use) {
+				returnThis[0] = true;
+				returnThis[1] = new Help().action(((MessageReceivedEvent) evt).getTextChannel(), ((MessageReceivedEvent) evt).getMessage().getContentDisplay(), null);
+				return returnThis;
+			} else {
+				return new Help().getDesc();
+			}
 		case "about":
-			returnThis[0] = true;
-			returnThis[1] = new About().action(chn, null, null);
-			return returnThis;
+			if(use) {
+				returnThis[0] = true;
+				returnThis[1] = new About().action(((MessageReceivedEvent) evt).getTextChannel(), null, null);
+				return returnThis;
+			} else {
+				return new About().getDesc();
+			}
+			
 		//Moderator
 		case "kick":
-			returnThis[0] = true;
-			returnThis[1] = new Kick().action(chn, null, event);
-			return returnThis;
+			if(use) {
+				returnThis[0] = true;
+				returnThis[1] = new Kick().action(((MessageReceivedEvent) evt).getTextChannel(), ((MessageReceivedEvent) evt).getMessage().getContentRaw(), evt);
+				return returnThis;
+			} else {
+				return new Kick().getDesc();
+			}
+		case "ban":
+			if(use) {
+				returnThis[0] = true;
+				returnThis[1] = new Ban().action(((MessageReceivedEvent) evt).getTextChannel(), ((MessageReceivedEvent) evt).getMessage().getContentRaw(), evt);
+				return returnThis;
+			} else {
+				return new Ban().getDesc();
+			}
+		case "warn":
+			if(use) {
+				returnThis[0] = true;
+				returnThis[1] = new Warn().action(((MessageReceivedEvent) evt).getTextChannel(), ((MessageReceivedEvent) evt).getMessage().getContentRaw(), evt);
+				return returnThis;
+			} else {
+				
+			}
 			
 		//Bot Owner Commands
 		case "shutdown":
-			returnThis[0] = true;
-			returnThis[1] = shutdown(chn, usr);
-			return returnThis;
-		
+			if(use) {
+				returnThis[0] = true;
+				returnThis[1] = shutdown(((MessageReceivedEvent) evt).getTextChannel(), ((MessageReceivedEvent) evt).getAuthor());
+				return returnThis;
+			} else {
+				return "Shuts down the bot";
+			}
 		}
 		
-		return returnThis;
-		
+		return new boolean[] {false, false};
 	}
 	
 	//Bot Owner Command
