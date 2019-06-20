@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import javax.security.auth.login.LoginException;
 
-import discord.MessageHandler;
+import handlers.MessageHandler;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
@@ -64,6 +64,14 @@ public class Launcher {
 								break;
 							case "logID":
 								InitData.logID = stuff;
+								break;
+							case "botOwnerIDs":
+								
+								Scanner scb = new Scanner(stuff);
+								scb.useDelimiter(",");
+								while(scb.hasNext())
+									System.out.println(scb.next());
+								
 								break;
 							case "permLvl":
 								System.out.println("permLvl override is unused! Nothing changed");
@@ -132,6 +140,7 @@ public class Launcher {
 				try {
 					ignoreOverride();
 				} catch (InterruptedException | FileNotFoundException | LoginException e1) {
+					
 					e1.printStackTrace();
 				}
 				

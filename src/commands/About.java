@@ -1,24 +1,22 @@
 package commands;
 
-import java.util.HashMap;
-
+import handlers.MessageHandler;
 import init.InitData;
+import net.dv8tion.jda.core.entities.TextChannel;
 
 public class About extends Command {
 
 	public About() {
-		super("about", "**DEVELOPER**: AlphaSerpentis#3203\n**VERSION**:" + InitData.version + "\n**GITHUB**: (Private for now)");
+		super("about", "Lucky Lynx is a public multi-purpose Discord Bot built on JDA!\n\n**Developer**: AlphaSerpentis#3203\n**Version**: " + InitData.version + " (DoubleJGames Edition)\n**GitHub**: (Private for now)\n**Patreon**: https://www.patreon.com/project_lynx");
 	}
 
 	@Override
-	public String toString() {
-		return null;
+	public boolean action(TextChannel chn, String msg, Object misc) {
+		
+		MessageHandler.sendMessage(chn, getDesc());
+		
+		return true;
 	}
-
-	@Override
-	public boolean action(HashMap<String, Boolean> p) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 	
 }

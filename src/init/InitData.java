@@ -1,5 +1,8 @@
 package init;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class InitData {
 
 	/*
@@ -10,6 +13,9 @@ public class InitData {
 	 * locKey(KEY_LOCATION) -- directory
 	 * guildID(ID) -- value (Unnecessary?)
 	 * logID(ID) -- value
+	 * botOwnerIDs(ID,ID...) -- value, use commas to separate IDs
+	 * modIDs(ID, ID...)
+	 * adminIDs(ID, ID...)
 	 * permLvl(?) -- undecided... Removed... TODO: Rewrite this?
 	 * prefix(char) -- character
 	 * accptPrv(bool) -- boolean
@@ -22,20 +28,30 @@ public class InitData {
 	 * 
 	 */
 	public static final String overrideKeys[] = {
-			"locKey", "guildID", "logID", "permLvl",
+			"locKey", "guildID", "logID", "botOwnerIDs", "permLvl",
 			"prefix", "accptPrv", "vers"
 			};
 	
-	/*
-	 * YOU MUST SET THE FILE DIRECTORY TO A "key.txt" or "key.dat" FILE
+	/**
+	 * YOU MUST SET THE FILE DIRECTORY TO A "key.txt" or "key.dat" FILE.
+	 * It doesn't have to be in the depend folder.
 	 */
 	public static String locationKey = "depend/key.txt";
 	
 	/*
 	 * "guildID" is used for the guild's ID and "logID" is used if a log channel is available
+	 * 
+	 * TODO: Make it so that it supports multiple servers for LUCKY LYNX ONLY
 	 * "guildID" will be automatically filled upon joining a server.
 	 */
 	public static String guildID = "", logID = "";
+	
+	/*
+	 * "botOwnerIDs" contains the Bot Owner
+	 */
+	public static Long[] botOwnerIDs = {
+			216037365829992448L, 131411551130222592L
+	};
 	
 	/*
 	 * Use this to modify the prefix, '!' is the default and can be overridden/changed if needed
