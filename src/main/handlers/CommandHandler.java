@@ -84,7 +84,7 @@ public class CommandHandler {
 				returnThis[1] = new Warn().action(((MessageReceivedEvent) evt).getTextChannel(), ((MessageReceivedEvent) evt).getMessage().getContentRaw(), evt);
 				return returnThis;
 			} else {
-				
+				return new Warn().getDesc();
 			}
 			
 		//Bot Owner Commands
@@ -97,8 +97,9 @@ public class CommandHandler {
 				return "Shuts down the bot";
 			}
 		}
-		
-		return new boolean[] {false, false};
+		default:
+			return new boolean[] {false, false};
+		}
 	}
 	
 	//Bot Owner Command

@@ -3,7 +3,6 @@ package main.commands;
 import java.util.ArrayList;
 
 import main.init.Launcher;
-import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 
 public abstract class Command {
@@ -11,10 +10,11 @@ public abstract class Command {
 	/*
 	 * cmdName is REQUIRED
 	 * cmdType is REQUIRED, otherwise it DEFAULTS to "GENERAL"
-	 * Leave cmdPerms empty if you want EVERYONE to use it.
+	 * cmdPerms can be left empty, however if requirePerms = true, you'll need to configure.
 	 */
 	private String cmdName, cmdDesc, cmdType;
 	private ArrayList<Long> cmdPerms = new ArrayList<Long>();
+	private boolean requirePerms = false;
 	
 	/**NOT RECOMMENDED, PLEASE DEFINE YOUR COMMANDS EARLY AT INIT OR IN THE CODE ELSEWHERE
 	 * 
@@ -72,6 +72,10 @@ public abstract class Command {
 	public void setType(String t) {
 		cmdType = t.toUpperCase();
 	}
+
+	public void setRequirePerms(boolean o) {
+		requirePerms = o;
+	}
 	
 	//Getter Methods
 	public String getName() {
@@ -97,16 +101,17 @@ public abstract class Command {
 	public String getType() {
 		return cmdType;
 	}
+	public boolean getRequirePerms() {
+		return requirePerms;
+	}
 	
 	//Misc Methods
 
 	public void addPerm(long id) {
-		
+		cmdPerms.add(id);
 	}
-	
-
 	public void removePerm(long id) {
-		
+		cmdPerms.remove(id);
 	}
 	
 	/**

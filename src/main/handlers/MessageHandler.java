@@ -16,7 +16,7 @@ public class MessageHandler implements EventListener {
 		/*
 		 * Checks if the event triggered is a message type
 		 */
-		if(event instanceof MessageReceivedEvent) {
+		if(event instanceof MessageReceivedEvent && !((MessageReceivedEvent) event).getAuthor().isBot()) {
 			
 			/*
 			 * Checks the message uses the defined prefix found in InitData.java (you can change the prefix if you need to)
@@ -38,7 +38,7 @@ public class MessageHandler implements EventListener {
 				} else {
 					if(!result[1]) {
 						System.out.println("Command could not execute! (Are you allowed to use the command?)");
-						sendMessage(((MessageReceivedEvent) event).getTextChannel(), "Command failed to execute");
+						//sendMessage(((MessageReceivedEvent) event).getTextChannel(), "Command failed to execute"); //Uncomment if you wish.
 					}
 				}
 				
@@ -48,7 +48,8 @@ public class MessageHandler implements EventListener {
 		
 	}
 	
-	/**
+
+	/**Sends a message to the specified channel 
 	 * 
 	 * @param chn is REQUIRED in order to send a message
 	 * @param s is the message
@@ -65,7 +66,8 @@ public class MessageHandler implements EventListener {
 		
 	}
 	
-	/**
+
+	/**Sends a message to the DMs (it may execute, but not go through)
 	 * 
 	 * @param chn is REQUIRED in order to send a message privately
 	 * @param s is the message
